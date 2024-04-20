@@ -1,26 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { CreateHealthFacilityDto } from './dto/create-health-facility.dto';
-import { UpdateHealthFacilityDto } from './dto/update-health-facility.dto';
+import { HealthFacilityRepository } from './health-facility.repository';
 
 @Injectable()
 export class HealthFacilityService {
-  create(createHealthFacilityDto: CreateHealthFacilityDto) {
-    return 'This action adds a new healthFacility';
-  }
-
+  constructor(private healthFacilityRepository: HealthFacilityRepository) {}
   findAll() {
-    return `This action returns all healthFacility`;
+    // TODO: validate if user is logged in to return health facilities
+    return this.healthFacilityRepository.findAll({});
   }
 
-  findOne(id: number) {
+  findHealthFacilityShifts(id: number) {
+    // TODO: get shifts by health facility id
     return `This action returns a #${id} healthFacility`;
-  }
-
-  update(id: number, updateHealthFacilityDto: UpdateHealthFacilityDto) {
-    return `This action updates a #${id} healthFacility`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} healthFacility`;
   }
 }
