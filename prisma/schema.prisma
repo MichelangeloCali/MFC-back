@@ -34,8 +34,8 @@ model HealthFacility {
 
 model Shift {
   id                Int             @default(autoincrement()) @id
-  user              User            @relation(fields: [userId], references: [id])
-  userId            Int               
+  user              User?            @relation(fields: [userId], references: [id])
+  userId            Int?          
   healthFacility    HealthFacility  @relation(fields: [healthFacilityId],references: [id])
   healthFacilityId  Int    
   available         Boolean         @default(false)

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { Shift, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
+import { UpdateShiftDto } from './dto/update-shift.dto';
 
 @Injectable()
 export class ShiftRepository {
@@ -48,6 +49,21 @@ export class ShiftRepository {
       skip,
       take,
       cursor,
+    });
+  }
+
+  async updateShift(
+    id: number,
+    updateShiftDto: UpdateShiftDto,
+  ): Promise<Shift> {
+    return this.prisma.shift.update({
+      data: {
+        available: updateShiftDto.available,
+        userId: updateShiftDto.userId,
+      },
+      where: {
+        id,
+      },
     });
   }
 }
