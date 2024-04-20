@@ -14,7 +14,7 @@ model User {
   id         Int        @default(autoincrement()) @id
   email      String     @unique
   name       String?
-  shifts      Shifts[]
+  shifts     Shift[]
   updatedAt  DateTime   @default(now())
   createdAt  DateTime   @default(now())
   deletedAt  DateTime   @default(now())
@@ -26,13 +26,13 @@ model HealthFacility {
   type          String
   hours         Int
   shiftsPerDay  Int
-  shifts        Shifts[]
+  shifts        Shift[]
   updatedAt     DateTime   @default(now())
   createdAt     DateTime   @default(now())
   deletedAt     DateTime   @default(now())
 }
 
-model Shifts {
+model Shift {
   id                Int             @default(autoincrement()) @id
   user              User            @relation(fields: [userId], references: [id])
   userId            Int               

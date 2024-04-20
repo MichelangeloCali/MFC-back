@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { Shifts, Prisma } from '@prisma/client';
+import { Shift, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -12,11 +12,11 @@ export class ShiftRepository {
     params: {
       skip?: number;
       take?: number;
-      cursor?: Prisma.ShiftsWhereUniqueInput;
+      cursor?: Prisma.ShiftWhereUniqueInput;
     },
-  ): Promise<Shifts[]> {
+  ): Promise<Shift[]> {
     const { skip, take, cursor } = params;
-    return this.prisma.shifts.findMany({
+    return this.prisma.shift.findMany({
       where: {
         healthFacilityId,
         AND: {
@@ -34,11 +34,11 @@ export class ShiftRepository {
     params: {
       skip?: number;
       take?: number;
-      cursor?: Prisma.ShiftsWhereUniqueInput;
+      cursor?: Prisma.ShiftWhereUniqueInput;
     },
-  ): Promise<Shifts[]> {
+  ): Promise<Shift[]> {
     const { skip, take, cursor } = params;
-    return this.prisma.shifts.findMany({
+    return this.prisma.shift.findMany({
       where: {
         userId,
         AND: {
