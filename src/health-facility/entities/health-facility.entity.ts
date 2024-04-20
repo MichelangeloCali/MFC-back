@@ -1,8 +1,10 @@
+import { Shift } from 'src/shift/entities/shift.entity';
+
 export class HealthFacility {
   healthFacilityId: string;
   name: string;
   type: 'hospital' | 'clinic';
   hours: 24 | 12;
-  // shifts: Shift[];
+  shifts: Shift[];
   shiftsPerDay: 1 | 2 | 3 | 4;
 }
