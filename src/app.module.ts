@@ -5,6 +5,7 @@ import { PrismaService } from './prisma.service';
 import { HealthFacilityModule } from './health-facility/health-facility.module';
 import { ShiftModule } from './shift/shift.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { UserModule } from './user/user.module';
     ShiftModule,
     ConfigModule.forRoot(),
     UserModule,
+    AuthModule,
   ],
   providers: [PrismaService],
 })

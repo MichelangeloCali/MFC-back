@@ -14,8 +14,8 @@ export class UserService {
     return this.userRepository.create(createUserDto);
   }
 
-  findOne(id: number) {
-    return this.userRepository.findOne(id);
+  findOne(email: string) {
+    return this.userRepository.findOne(email);
   }
 
   findUserShifts(
