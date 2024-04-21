@@ -11,7 +11,7 @@ export class ShiftController {
   }
 
   @Put(':id/remove')
-  removeUser(@Param('id') id: string) {
-    return this.shiftService.removeUser(+id);
+  removeUser(@Param('id') id: string, @Body() data: { userId: number }) {
+    return this.shiftService.removeUser(+id, data.userId);
   }
 }

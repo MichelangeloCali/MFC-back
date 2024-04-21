@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ShiftRepository } from './shift.repository';
 import { UpdateShiftDto } from './dto/update-shift.dto';
 
@@ -14,15 +18,32 @@ export class ShiftService {
     return this.shiftRepository.findAllByUser(id, {});
   }
 
-  registerUser(id: number, userId: number) {
+  async registerUser(id: number, userId: number) {
+    const shift = await this.shiftRepository.findOne(id);
+    if (!shift) {
+      throw new NotFoundException('Shift not found');
+    }
+    if (!shift.available || shift.userId) {
+      throw new ConflictException('Shift already taken');
+    }
+
     const updateShiftDto: UpdateShiftDto = {
       available: false,
       userId,
     };
+
     return this.shiftRepository.updateShift(id, updateShiftDto);
   }
 
-  removeUser(id: number) {
+  async removeUser(id: number, userId: number) {
+    const shift = await this.shiftRepository.findOne(id);
+    if (!shift) {
+      throw new NotFoundException('Shift not found');
+    }
+    if (shift.userId !== userId) {
+      throw new ConflictException('Shift belongs to another User');
+    }
+
     const updateShiftDto: UpdateShiftDto = {
       available: true,
       userId: null,

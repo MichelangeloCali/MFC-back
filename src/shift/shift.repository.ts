@@ -52,6 +52,17 @@ export class ShiftRepository {
     });
   }
 
+  async findOne(id: number): Promise<Shift> {
+    return this.prisma.shift.findFirst({
+      where: {
+        id,
+        AND: {
+          deletedAt: null,
+        },
+      },
+    });
+  }
+
   async updateShift(
     id: number,
     updateShiftDto: UpdateShiftDto,
