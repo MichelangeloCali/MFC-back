@@ -18,6 +18,34 @@ export class ShiftService {
     return this.shiftRepository.findAllByUser(id, {});
   }
 
+  findShiftByDay(date: string, userId?: number, healthFacilityId?: number) {
+    const startDate = new Date(date);
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 1);
+    if (userId)
+      return this.shiftRepository.findAllByUser(userId, {
+        where: {
+          startTime: {
+            lte: endDate,
+            gte: startDate,
+          },
+        },
+      });
+
+    if (healthFacilityId)
+      return this.shiftRepository.findAllShiftsByHealthFacility(
+        healthFacilityId,
+        {
+          where: {
+            startTime: {
+              lte: endDate,
+              gte: startDate,
+            },
+          },
+        },
+      );
+  }
+
   async registerUser(id: number, userId: number) {
     const shift = await this.shiftRepository.findOne(id);
     if (!shift) {

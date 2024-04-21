@@ -13,16 +13,18 @@ export class ShiftRepository {
     params: {
       skip?: number;
       take?: number;
+      where?: Prisma.ShiftWhereInput;
       cursor?: Prisma.ShiftWhereUniqueInput;
     },
   ): Promise<Shift[]> {
-    const { skip, take, cursor } = params;
+    const { skip, take, cursor, where } = params;
     return this.prisma.shift.findMany({
       where: {
         healthFacilityId,
         AND: {
           deletedAt: null,
         },
+        ...where,
       },
       skip,
       take,
@@ -35,16 +37,18 @@ export class ShiftRepository {
     params: {
       skip?: number;
       take?: number;
+      where?: Prisma.ShiftWhereInput;
       cursor?: Prisma.ShiftWhereUniqueInput;
     },
   ): Promise<Shift[]> {
-    const { skip, take, cursor } = params;
+    const { skip, take, cursor, where } = params;
     return this.prisma.shift.findMany({
       where: {
         userId,
         AND: {
           deletedAt: null,
         },
+        ...where,
       },
       skip,
       take,
