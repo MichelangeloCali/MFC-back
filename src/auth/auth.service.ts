@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 
@@ -15,6 +15,8 @@ export class AuthService {
     //   throw new UnauthorizedException();
     // }
     // const { result } = user;
+
+    if (!email) throw new UnauthorizedException('You must pass an email');
 
     const payload = {
       sub: user.id,

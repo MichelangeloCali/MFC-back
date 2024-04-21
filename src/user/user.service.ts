@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from './user.repository';
 import { ShiftService } from 'src/shift/shift.service';
@@ -11,6 +15,9 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
+    if (!createUserDto.email || !createUserDto.name)
+      throw new UnauthorizedException('Email and Name are required');
+
     const user = await this.userRepository.findOne(createUserDto.email);
     if (user) throw new ConflictException('User already exists');
     return await this.userRepository.create(createUserDto);

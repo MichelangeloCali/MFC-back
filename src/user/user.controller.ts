@@ -12,7 +12,7 @@ export class UserController {
   ) {}
 
   @Public()
-  @Post('sing-up')
+  @Post('sign-up')
   async create(@Body() createUserDto: CreateUserDto) {
     const createdUser = await this.userService.create(createUserDto);
     return this.authService.signIn(createdUser.email);
