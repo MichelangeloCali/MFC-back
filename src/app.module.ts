@@ -6,6 +6,8 @@ import { HealthFacilityModule } from './health-facility/health-facility.module';
 import { ShiftModule } from './shift/shift.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { AuthGuard } from './auth/auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -15,6 +17,12 @@ import { AuthModule } from './auth/auth.module';
     UserModule,
     AuthModule,
   ],
-  providers: [PrismaService],
+  providers: [
+    PrismaService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AppModule {}

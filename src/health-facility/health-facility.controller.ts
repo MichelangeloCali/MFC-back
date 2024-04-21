@@ -20,9 +20,14 @@ export class HealthFacilityController {
     @Query('page') page?: number,
     @Query('limit') limit?: number,
   ) {
-    return this.healthFacilityService.findHealthFacilityShifts(+id, date, {
-      skip: page ? +page : undefined,
-      take: limit ? +limit : undefined,
-    });
+    const dateNow = new Date().toDateString();
+    return this.healthFacilityService.findHealthFacilityShifts(
+      +id,
+      date ?? dateNow,
+      {
+        skip: page ? +page : undefined,
+        take: limit ? +limit : undefined,
+      },
+    );
   }
 }

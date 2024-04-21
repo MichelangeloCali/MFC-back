@@ -1,28 +1,23 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Query, Request } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
+  }
 
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.userService.create(createUserDto);
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.userService.findOne(id);
-  // }
-
-  @Get(':id/shifts')
+  @Get('shifts')
   findUserShifts(
-    @Param('id') id: string,
+    @Request() req,
     @Query('date') date: string,
     @Query('page') page?: number,
     @Query('limit') limit?: number,
   ) {
-    return this.userService.findUserShifts(+id, date, {
+    const dateNow = new Date().toDateString();
+    return this.userService.findUserShifts(req.user.sub, date ?? dateNow, {
       skip: page ? +page : undefined,
       take: limit ? +limit : undefined,
     });
