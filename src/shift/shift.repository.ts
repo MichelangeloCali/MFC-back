@@ -66,8 +66,13 @@ export class ShiftRepository {
   async updateShift(
     id: number,
     updateShiftDto: UpdateShiftDto,
-  ): Promise<Shift> {
+  ): Promise<Partial<Shift>> {
     return this.prisma.shift.update({
+      select: {
+        id: true,
+        available: true,
+        healthFacilityId: true,
+      },
       data: {
         available: updateShiftDto.available,
         userId: updateShiftDto.userId,
