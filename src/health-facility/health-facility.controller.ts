@@ -16,10 +16,11 @@ export class HealthFacilityController {
   @Get(':id/shifts')
   findOne(
     @Param('id') id: string,
+    @Query('date') date: string,
     @Query('page') page?: number,
     @Query('limit') limit?: number,
   ) {
-    return this.healthFacilityService.findHealthFacilityShifts(+id, {
+    return this.healthFacilityService.findHealthFacilityShifts(+id, date, {
       skip: page ? +page : undefined,
       take: limit ? +limit : undefined,
     });

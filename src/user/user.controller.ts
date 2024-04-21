@@ -19,10 +19,11 @@ export class UserController {
   @Get(':id/shifts')
   findUserShifts(
     @Param('id') id: string,
+    @Query('date') date: string,
     @Query('page') page?: number,
     @Query('limit') limit?: number,
   ) {
-    return this.userService.findUserShifts(+id, {
+    return this.userService.findUserShifts(+id, date, {
       skip: page ? +page : undefined,
       take: limit ? +limit : undefined,
     });

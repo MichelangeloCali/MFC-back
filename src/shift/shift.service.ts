@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { ShiftRepository } from './shift.repository';
 import { UpdateShiftDto } from './dto/update-shift.dto';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ShiftService {
@@ -13,22 +12,7 @@ export class ShiftService {
 
   findAllShiftsByHealthFacility(
     id: number,
-    params: { skip?: number; take?: number; where?: Prisma.ShiftWhereInput },
-  ) {
-    return this.shiftRepository.findAllShiftsByHealthFacility(id, params);
-  }
-
-  findAllByUser(
-    id: number,
-    params: { skip?: number; take?: number; where?: Prisma.ShiftWhereInput },
-  ) {
-    return this.shiftRepository.findAllByUser(id, params);
-  }
-
-  findShiftByDay(
     date: string,
-    userId: number | undefined,
-    healthFacilityId: number | undefined,
     params: { skip?: number; take?: number },
   ) {
     const startDate = new Date(date);
@@ -37,32 +21,39 @@ export class ShiftService {
 
     const { skip, take } = params;
 
-    if (userId)
-      return this.shiftRepository.findAllByUser(userId, {
-        where: {
-          startTime: {
-            lte: endDate,
-            gte: startDate,
-          },
+    return this.shiftRepository.findAllShiftsByHealthFacility(id, {
+      where: {
+        startTime: {
+          lte: endDate,
+          gte: startDate,
         },
-        skip,
-        take,
-      });
+      },
+      skip,
+      take,
+    });
+  }
 
-    if (healthFacilityId)
-      return this.shiftRepository.findAllShiftsByHealthFacility(
-        healthFacilityId,
-        {
-          where: {
-            startTime: {
-              lte: endDate,
-              gte: startDate,
-            },
-          },
-          skip,
-          take,
+  findAllByUser(
+    id: number,
+    date: string,
+    params: { skip?: number; take?: number },
+  ) {
+    const startDate = new Date(date);
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 1);
+
+    const { skip, take } = params;
+
+    return this.shiftRepository.findAllByUser(id, {
+      where: {
+        startTime: {
+          lte: endDate,
+          gte: startDate,
         },
-      );
+      },
+      skip,
+      take,
+    });
   }
 
   async registerUser(id: number, userId: number) {

@@ -25,10 +25,11 @@ export class HealthFacilityService {
 
   async findHealthFacilityShifts(
     id: number,
+    date: string,
     params: { skip?: number; take?: number },
   ) {
     const healthFacilityShifts =
-      await this.shiftService.findAllShiftsByHealthFacility(id, params);
+      await this.shiftService.findAllShiftsByHealthFacility(id, date, params);
     return healthFacilityShifts.map((item) => ({
       shiftId: item.id,
       available: item.available,

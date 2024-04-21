@@ -18,7 +18,11 @@ export class UserService {
     return this.userRepository.findOne(id);
   }
 
-  findUserShifts(id: number, params: { skip?: number; take?: number }) {
-    return this.shiftService.findAllByUser(id, params);
+  findUserShifts(
+    id: number,
+    date: string,
+    params: { skip?: number; take?: number },
+  ) {
+    return this.shiftService.findAllByUser(id, date, params);
   }
 }
