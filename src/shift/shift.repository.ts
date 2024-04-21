@@ -37,9 +37,17 @@ export class ShiftRepository {
       take?: number;
       where?: Prisma.ShiftWhereInput;
     },
-  ): Promise<Shift[]> {
+  ): Promise<Partial<Shift>[]> {
     const { skip, take, where } = params;
     return this.prisma.shift.findMany({
+      include: {
+        healthFacility: {
+          select: {
+            name: true,
+            type: true,
+          },
+        },
+      },
       where: {
         userId,
         AND: {
@@ -47,6 +55,7 @@ export class ShiftRepository {
         },
         ...where,
       },
+
       skip,
       take,
     });

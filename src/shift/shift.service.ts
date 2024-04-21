@@ -22,12 +22,12 @@ export class ShiftService {
     const { skip, take } = params;
 
     return this.shiftRepository.findAllShiftsByHealthFacility(id, {
-      where: {
-        startTime: {
-          lte: endDate,
-          gte: startDate,
-        },
-      },
+      // where: {
+      //   startTime: {
+      //     lte: endDate,
+      //     gte: startDate,
+      //   },
+      // },
       skip,
       take,
     });
@@ -45,12 +45,12 @@ export class ShiftService {
     const { skip, take } = params;
 
     return this.shiftRepository.findAllByUser(id, {
-      where: {
-        startTime: {
-          lte: endDate,
-          gte: startDate,
-        },
-      },
+      // where: {
+      //   startTime: {
+      //     lte: endDate,
+      //     gte: startDate,
+      //   },
+      // },
       skip,
       take,
     });
