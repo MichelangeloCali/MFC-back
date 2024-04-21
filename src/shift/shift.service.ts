@@ -5,23 +5,38 @@ import {
 } from '@nestjs/common';
 import { ShiftRepository } from './shift.repository';
 import { UpdateShiftDto } from './dto/update-shift.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ShiftService {
   constructor(private shiftRepository: ShiftRepository) {}
 
-  findAllShiftsByHealthFacility(id: number) {
-    return this.shiftRepository.findAllShiftsByHealthFacility(id, {});
+  findAllShiftsByHealthFacility(
+    id: number,
+    params: { skip?: number; take?: number; where?: Prisma.ShiftWhereInput },
+  ) {
+    return this.shiftRepository.findAllShiftsByHealthFacility(id, params);
   }
 
-  findAllByUser(id: number) {
-    return this.shiftRepository.findAllByUser(id, {});
+  findAllByUser(
+    id: number,
+    params: { skip?: number; take?: number; where?: Prisma.ShiftWhereInput },
+  ) {
+    return this.shiftRepository.findAllByUser(id, params);
   }
 
-  findShiftByDay(date: string, userId?: number, healthFacilityId?: number) {
+  findShiftByDay(
+    date: string,
+    userId: number | undefined,
+    healthFacilityId: number | undefined,
+    params: { skip?: number; take?: number },
+  ) {
     const startDate = new Date(date);
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 1);
+
+    const { skip, take } = params;
+
     if (userId)
       return this.shiftRepository.findAllByUser(userId, {
         where: {
@@ -30,6 +45,8 @@ export class ShiftService {
             gte: startDate,
           },
         },
+        skip,
+        take,
       });
 
     if (healthFacilityId)
@@ -42,6 +59,8 @@ export class ShiftService {
               gte: startDate,
             },
           },
+          skip,
+          take,
         },
       );
   }

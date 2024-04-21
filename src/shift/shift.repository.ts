@@ -14,10 +14,9 @@ export class ShiftRepository {
       skip?: number;
       take?: number;
       where?: Prisma.ShiftWhereInput;
-      cursor?: Prisma.ShiftWhereUniqueInput;
     },
   ): Promise<Shift[]> {
-    const { skip, take, cursor, where } = params;
+    const { skip, take, where } = params;
     return this.prisma.shift.findMany({
       where: {
         healthFacilityId,
@@ -28,7 +27,6 @@ export class ShiftRepository {
       },
       skip,
       take,
-      cursor,
     });
   }
 
@@ -38,10 +36,9 @@ export class ShiftRepository {
       skip?: number;
       take?: number;
       where?: Prisma.ShiftWhereInput;
-      cursor?: Prisma.ShiftWhereUniqueInput;
     },
   ): Promise<Shift[]> {
-    const { skip, take, cursor, where } = params;
+    const { skip, take, where } = params;
     return this.prisma.shift.findMany({
       where: {
         userId,
@@ -52,7 +49,6 @@ export class ShiftRepository {
       },
       skip,
       take,
-      cursor,
     });
   }
 

@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { HealthFacilityService } from './health-facility.service';
 
 @Controller('health-facility')
@@ -6,12 +6,22 @@ export class HealthFacilityController {
   constructor(private readonly healthFacilityService: HealthFacilityService) {}
 
   @Get()
-  findAll() {
-    return this.healthFacilityService.findAll();
+  findAll(@Query('page') page?: number, @Query('limit') limit?: number) {
+    return this.healthFacilityService.findAll({
+      skip: page ? +page : undefined,
+      take: limit ? +limit : undefined,
+    });
   }
 
   @Get(':id/shifts')
-  findOne(@Param('id') id: string) {
-    return this.healthFacilityService.findHealthFacilityShifts(+id);
+  findOne(
+    @Param('id') id: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return this.healthFacilityService.findHealthFacilityShifts(+id, {
+      skip: page ? +page : undefined,
+      take: limit ? +limit : undefined,
+    });
   }
 }

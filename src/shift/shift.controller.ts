@@ -19,7 +19,13 @@ export class ShiftController {
   findShiftByDay(
     @Query('date') date: string,
     @Query('userId') userId?: string,
+    @Query('healthFacilityId') healthFacilityId?: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
   ) {
-    return this.shiftService.findShiftByDay(date, +userId);
+    return this.shiftService.findShiftByDay(date, +userId, +healthFacilityId, {
+      skip: page ? +page : undefined,
+      take: limit ? +limit : undefined,
+    });
   }
 }

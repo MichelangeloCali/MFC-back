@@ -8,12 +8,34 @@ export class HealthFacilityService {
     private healthFacilityRepository: HealthFacilityRepository,
     private shiftService: ShiftService,
   ) {}
-  findAll() {
+
+  async findAll(params: { skip?: number; take?: number }) {
     // TODO: validate if user is logged in to return health facilities
-    return this.healthFacilityRepository.findAll({});
+    const healthFacilities =
+      await this.healthFacilityRepository.findAll(params);
+
+    return healthFacilities.map((item) => ({
+      healthFacilityId: item.id,
+      name: item.name,
+      type: item.type,
+      hours: item.hours,
+      shiftsPerDay: item.shiftsPerDay,
+    }));
   }
 
-  findHealthFacilityShifts(id: number) {
-    return this.shiftService.findAllShiftsByHealthFacility(id);
+  async findHealthFacilityShifts(
+    id: number,
+    params: { skip?: number; take?: number },
+  ) {
+    const healthFacilityShifts =
+      await this.shiftService.findAllShiftsByHealthFacility(id, params);
+    return healthFacilityShifts.map((item) => ({
+      shiftId: item.id,
+      available: item.available,
+      period: item.period,
+      duration: item.duration,
+      startTime: item.startTime,
+      endTime: item.endTime,
+    }));
   }
 }

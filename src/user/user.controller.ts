@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -17,7 +17,14 @@ export class UserController {
   }
 
   @Get(':id/shifts')
-  findUserShifts(@Param('id') id: string) {
-    return this.userService.findUserShifts(+id);
+  findUserShifts(
+    @Param('id') id: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return this.userService.findUserShifts(+id, {
+      skip: page ? +page : undefined,
+      take: limit ? +limit : undefined,
+    });
   }
 }
