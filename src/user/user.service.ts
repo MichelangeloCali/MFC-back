@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from './user.repository';
 import { ShiftService } from 'src/shift/shift.service';
@@ -10,8 +10,10 @@ export class UserService {
     private shiftService: ShiftService,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    return this.userRepository.create(createUserDto);
+  async create(createUserDto: CreateUserDto) {
+    const user = await this.userRepository.findOne(createUserDto.email);
+    if (user) throw new ConflictException('User already exists');
+    return await this.userRepository.create(createUserDto);
   }
 
   findOne(email: string) {

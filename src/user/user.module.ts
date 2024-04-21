@@ -5,6 +5,7 @@ import { UserRepository } from './user.repository';
 import { PrismaService } from 'src/prisma.service';
 import { ShiftService } from 'src/shift/shift.service';
 import { ShiftRepository } from 'src/shift/shift.repository';
+import { AuthService } from 'src/auth/auth.service';
 
 @Module({
   controllers: [UserController],
@@ -14,6 +15,7 @@ import { ShiftRepository } from 'src/shift/shift.repository';
     PrismaService,
     ShiftService,
     ShiftRepository,
+    AuthService,
   ],
 })
 export class UserModule {}
