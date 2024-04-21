@@ -16,7 +16,11 @@ export class AuthService {
     // }
     // const { result } = user;
 
-    const payload = { sub: user.id, email: user.email };
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      profileImage: user.imageUrl,
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
